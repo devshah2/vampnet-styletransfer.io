@@ -1,0 +1,1543 @@
+<html>
+    <head>
+    <style>
+    .base-grid,
+    .n-header,
+    .n-byline,
+    .n-title,
+    .n-article,
+    .n-footer {
+        display: grid;
+        justify-items: stretch;
+        grid-template-columns: [screen-start] 8px [page-start kicker-start text-start gutter-start middle-start] 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr [text-end page-end gutter-end kicker-end middle-end] 8px [screen-end];
+        grid-column-gap: 8px;
+    }
+    
+    .grid {
+      display: grid;
+      grid-column-gap: 8px;
+    }
+    
+    @media(min-width: 768px) {
+        .base-grid,
+        .n-header,
+        .n-byline,
+        .n-title,
+        .n-article,
+        .n-footer {
+            display: grid;
+            justify-items: stretch;
+            grid-template-columns: [screen-start] 1fr [page-start kicker-start middle-start text-start] 45px 45px 45px 45px 45px 45px 45px 45px [ kicker-end text-end gutter-start] 45px [middle-end] 45px [page-end gutter-end] 1fr [screen-end];
+            grid-column-gap: 16px;
+        }
+    
+        .grid {
+            grid-column-gap: 16px;
+        }
+    }
+    
+    @media(min-width: 1000px) {
+        .base-grid,
+        .n-header,
+        .n-byline,
+        .n-title,
+        .n-article,
+        .n-footer {
+            display: grid;
+            justify-items: stretch;
+            grid-template-columns: [screen-start] 1fr [page-start kicker-start] 50px [middle-start] 50px [text-start kicker-end] 50px 50px 50px 50px 50px 50px 50px 50px [text-end gutter-start] 50px [middle-end] 50px [page-end gutter-end] 1fr [screen-end];
+            grid-column-gap: 16px;
+        }
+    
+        .grid {
+            grid-column-gap: 16px;
+        }
+    }
+    
+    @media (min-width: 1180px) {
+        .base-grid,
+        .n-header,
+        .n-byline,
+        .n-title,
+        .n-article,
+        .n-footer {
+            display: grid;
+            justify-items: stretch;
+            grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+            grid-column-gap: 32px;
+        }
+        .grid {
+            grid-column-gap: 32px;
+        }
+    
+    }
+    
+    .base-grid {
+      grid-column: screen;
+    }
+    
+    /* default grid column assignments */
+    .n-title > *  {
+      grid-column: text;
+    }
+    
+    .n-article > *  {
+      grid-column: text;
+    }
+    
+    .n-title {
+        padding: 4rem 0 0.5rem;
+    }
+    
+    .l-page {
+        grid-column: page;
+    }
+    
+    .l-article {
+        grid-column: text;
+    }
+    
+    p {
+      margin-top: 0;
+      margin-bottom: 1em;
+    }
+    
+    
+    .pixelated {
+        image-rendering: pixelated;
+    }
+    
+    strong {
+        font-weight: 600;
+    }
+    
+    /*------------------------------------------------------------------*/
+    /* title */
+    .n-title h1 {
+        font-family: "Barlow",system-ui,Arial,sans-serif;
+        color:#082333;
+        grid-column: text;
+        font-size: 40px;
+        font-weight: 700;
+        line-height: 1.1em;
+        margin: 0 0 0.5rem;
+        text-align: center;
+    }
+    
+    @media (min-width: 768px) {
+        .n-title h1 {
+            font-size: 50px;
+        }
+    }
+    
+    
+    .n-byline {
+      contain: style;
+      overflow: hidden;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      font-size: 0.8rem;
+      line-height: 1.8em;
+      padding: 1.5rem 0;
+      min-height: 1.8em;
+    }
+    
+    .n-byline .byline {
+      grid-column: text;
+    }
+    
+    .byline {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    
+    .grid {
+        display: grid;
+        grid-column-gap: 8px;
+    }
+    
+    @media (min-width: 768px) {
+    .grid {
+        grid-column-gap: 16px;
+    }
+    }
+    
+    .n-byline p {
+      margin: 0;
+    }
+    
+    .n-byline h3 {
+        font-size: 0.6rem;
+        font-weight: 400;
+        color: rgba(0, 0, 0, 0.5);
+        margin: 0;
+        text-transform: uppercase;
+    }
+    .n-byline .authors-affiliations {
+      grid-column-end: span 2;
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    ul.authors {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+    ul.authors li {
+        padding: 0 0.5rem;
+        display: inline-block;
+    }
+    
+    ul.authors sup {
+        color: rgb(126,126,126);
+    }
+    
+    ul.authors.affiliations  {
+        margin-top: 0.5rem;
+    }
+    
+    ul.authors.affiliations li {
+        color: rgb(126,126,126);
+    }
+    
+    
+    </style>
+    
+        <title>Style Transfer Using VampNet</title>
+        <style id="distill-prerendered-styles" type="text/css">/*
+     * Copyright 2018 The Distill Template Authors
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *      http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+    
+    html {
+      font-size: 14px;
+        line-height: 1.6em;
+      /* font-family: "Libre Franklin", "Helvetica Neue", sans-serif; */
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+      /*, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
+      text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+    }
+    
+    @media(min-width: 768px) {
+      html {
+        font-size: 16px;
+      }
+    }
+    
+    body {
+      margin: 0;
+    }
+    
+    a {
+      color: #004276;
+    }
+    
+    figure {
+      margin: 0;
+    }
+    
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+    
+    table th {
+        text-align: left;
+    }
+    
+    table thead {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    table thead th {
+      padding-bottom: 0.5em;
+    }
+    
+    table tbody :first-child td {
+      padding-top: 0.5em;
+    }
+    
+    pre {
+      overflow: auto;
+      max-width: 100%;
+    }
+    
+    p {
+      margin-top: 0;
+      margin-bottom: 1em;
+    }
+    
+    sup, sub {
+      vertical-align: baseline;
+      position: relative;
+      top: -0.4em;
+      line-height: 1em;
+    }
+    
+    sub {
+      top: 0.4em;
+    }
+    
+    .kicker,
+    .marker {
+      font-size: 15px;
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.5);
+    }
+    
+    
+    /* Headline */
+    
+    @media(min-width: 1024px) {
+      d-title h1 span {
+        display: block;
+      }
+    }
+    
+    /* Figure */
+    
+    figure {
+      position: relative;
+      margin-bottom: 2.5em;
+      margin-top: 1.5em;
+    }
+    
+    figcaption+figure {
+    
+    }
+    
+    figure img {
+      width: 100%;
+    }
+    
+    figure svg text,
+    figure svg tspan {
+    }
+    
+    figcaption,
+    .figcaption {
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 12px;
+      line-height: 1.5em;
+    }
+    
+    @media(min-width: 1024px) {
+    figcaption,
+    .figcaption {
+        font-size: 13px;
+      }
+    }
+    
+    figure.external img {
+      background: white;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+      padding: 18px;
+      box-sizing: border-box;
+    }
+    
+    figcaption a {
+      color: rgba(0, 0, 0, 0.6);
+    }
+    
+    figcaption b,
+    figcaption strong, {
+      font-weight: 600;
+      color: rgba(0, 0, 0, 1.0);
+    }
+    /*
+     * Copyright 2018 The Distill Template Authors
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *      http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+    
+    @supports not (display: grid) {
+      .base-grid,
+      distill-header,
+      d-title,
+      d-abstract,
+      d-article,
+      d-appendix,
+      distill-appendix,
+      d-byline,
+      d-footnote-list,
+      d-citation-list,
+      distill-footer {
+        display: block;
+        padding: 8px;
+      }
+    }
+    
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      display: grid;
+      justify-items: stretch;
+      grid-template-columns: [screen-start] 8px [page-start kicker-start text-start gutter-start middle-start] 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr [text-end page-end gutter-end kicker-end middle-end] 8px [screen-end];
+      grid-column-gap: 8px;
+    }
+    
+    .grid {
+      display: grid;
+      grid-column-gap: 8px;
+    }
+    
+    @media(min-width: 768px) {
+      .base-grid,
+      distill-header,
+      d-title,
+      d-abstract,
+      d-article,
+      d-appendix,
+      distill-appendix,
+      d-byline,
+      d-footnote-list,
+      d-citation-list,
+      distill-footer {
+        grid-template-columns: [screen-start] 1fr [page-start kicker-start middle-start text-start] 45px 45px 45px 45px 45px 45px 45px 45px [ kicker-end text-end gutter-start] 45px [middle-end] 45px [page-end gutter-end] 1fr [screen-end];
+        grid-column-gap: 16px;
+      }
+    
+      .grid {
+        grid-column-gap: 16px;
+      }
+    }
+    
+    @media(min-width: 1000px) {
+      .base-grid,
+      distill-header,
+      d-title,
+      d-abstract,
+      d-article,
+      d-appendix,
+      distill-appendix,
+      d-byline,
+      d-footnote-list,
+      d-citation-list,
+      distill-footer {
+        grid-template-columns: [screen-start] 1fr [page-start kicker-start] 50px [middle-start] 50px [text-start kicker-end] 50px 50px 50px 50px 50px 50px 50px 50px [text-end gutter-start] 50px [middle-end] 50px [page-end gutter-end] 1fr [screen-end];
+        grid-column-gap: 16px;
+      }
+    
+      .grid {
+        grid-column-gap: 16px;
+      }
+    }
+    
+    @media(min-width: 1180px) {
+      .base-grid,
+      distill-header,
+      d-title,
+      d-abstract,
+      d-article,
+      d-appendix,
+      distill-appendix,
+      d-byline,
+      d-footnote-list,
+      d-citation-list,
+      distill-footer {
+        grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+        grid-column-gap: 32px;
+      }
+    
+      .grid {
+        grid-column-gap: 32px;
+      }
+    }
+    
+    
+    
+    
+    .base-grid {
+      grid-column: screen;
+    }
+    
+    /* .l-body,
+    d-article > *  {
+      grid-column: text;
+    }
+    
+    .l-page,
+    d-title > *,
+    d-figure {
+      grid-column: page;
+    } */
+    
+    .l-gutter {
+      grid-column: gutter;
+    }
+    
+    .l-text,
+    .l-body {
+      grid-column: text;
+    }
+    
+    .l-page {
+      grid-column: page;
+    }
+    
+    .l-body-outset {
+      grid-column: middle;
+    }
+    
+    .l-page-outset {
+      grid-column: page;
+    }
+    
+    .l-screen {
+      grid-column: screen;
+    }
+    
+    .l-screen-inset {
+      grid-column: screen;
+      padding-left: 16px;
+      padding-left: 16px;
+    }
+    
+    
+    /* Aside */
+    
+    d-article aside {
+      grid-column: gutter;
+      font-size: 12px;
+      line-height: 1.6em;
+      color: rgba(0, 0, 0, 0.6)
+    }
+    
+    @media(min-width: 768px) {
+      aside {
+        grid-column: gutter;
+      }
+    
+      .side {
+        grid-column: gutter;
+      }
+    }
+    /*
+     * Copyright 2018 The Distill Template Authors
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *      http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+    
+    d-title {
+      padding: 2rem 0 1.5rem;
+      contain: layout style;
+      overflow-x: hidden;
+    }
+    
+    @media(min-width: 768px) {
+      d-title {
+        padding: 4rem 0 1.5rem;
+      }
+    }
+    
+    d-title h1 {
+      grid-column: text;
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1.1em;
+      margin: 0 0 0.5rem;
+    }
+    
+    @media(min-width: 768px) {
+      d-title h1 {
+        font-size: 50px;
+      }
+    }
+    
+    d-title p {
+      font-weight: 300;
+      font-size: 1.2rem;
+      line-height: 1.55em;
+      grid-column: text;
+    }
+    
+    d-title .status {
+      margin-top: 0px;
+      font-size: 12px;
+      color: #009688;
+      opacity: 0.8;
+      grid-column: kicker;
+    }
+    
+    d-title .status span {
+      line-height: 1;
+      display: inline-block;
+      padding: 6px 0;
+      border-bottom: 1px solid #80cbc4;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+    /*
+     * Copyright 2018 The Distill Template Authors
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *      http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+    
+    d-byline {
+      contain: style;
+      overflow: hidden;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      font-size: 0.8rem;
+      line-height: 1.8em;
+      padding: 1.5rem 0;
+      min-height: 1.8em;
+    }
+    
+    
+    d-byline .byline {
+      grid-template-columns: 1fr 1fr;
+      grid-column: text;
+    }
+    
+    @media(min-width: 768px) {
+      d-byline .byline {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+    }
+    
+    d-byline .authors-affiliations {
+      grid-column-end: span 2;
+      grid-template-columns: 1fr 1fr;
+      margin-bottom: 1em;
+    }
+    
+    @media(min-width: 768px) {
+      d-byline .authors-affiliations {
+        margin-bottom: 0;
+      }
+    }
+    
+    d-byline h3 {
+      font-size: 0.6rem;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.5);
+      margin: 0;
+      text-transform: uppercase;
+    }
+    
+    d-byline p {
+      margin: 0;
+    }
+    
+    d-byline a,
+    d-article d-byline a {
+      color: rgba(0, 0, 0, 0.8);
+      text-decoration: none;
+      border-bottom: none;
+    }
+    
+    d-article d-byline a:hover {
+      text-decoration: underline;
+      border-bottom: none;
+    }
+    
+    d-byline p.author {
+      font-weight: 500;
+    }
+    
+    d-byline .affiliations {
+    
+    }
+    /*
+     * Copyright 2018 The Distill Template Authors
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *      http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+    
+    d-article {
+      contain: layout style;
+      overflow-x: hidden;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      padding-top: 2rem;
+      color: rgba(0, 0, 0, 0.8);
+    }
+    
+    d-article > * {
+      grid-column: text;
+    }
+    
+    @media(min-width: 768px) {
+      d-article {
+        font-size: 16px;
+      }
+    }
+    
+    @media(min-width: 1024px) {
+      d-article {
+        font-size: 1.06rem;
+        line-height: 1.7em;
+      }
+    }
+    
+    
+    /* H2 */
+    
+    
+    d-article .marker {
+      text-decoration: none;
+      border: none;
+      counter-reset: section;
+      grid-column: kicker;
+      line-height: 1.7em;
+    }
+    
+    d-article .marker:hover {
+      border: none;
+    }
+    
+    d-article .marker span {
+      padding: 0 3px 4px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      position: relative;
+      top: 4px;
+    }
+    
+    d-article .marker:hover span {
+      color: rgba(0, 0, 0, 0.7);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+    }
+    
+    d-article h2 {
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 1.25em;
+      margin: 2rem 0 1.5rem 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      padding-bottom: 1rem;
+    }
+    
+    @media(min-width: 1024px) {
+      d-article h2 {
+        font-size: 36px;
+      }
+    }
+    
+    /* H3 */
+    
+    d-article h3 {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.4em;
+      margin-bottom: 1em;
+      margin-top: 2em;
+    }
+    
+    @media(min-width: 1024px) {
+      d-article h3 {
+        font-size: 20px;
+      }
+    }
+    
+    /* H4 */
+    
+    d-article h4 {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 14px;
+      line-height: 1.4em;
+    }
+    
+    d-article a {
+      color: inherit;
+    }
+    
+    d-article p,
+    d-article ul,
+    d-article ol,
+    d-article blockquote {
+      margin-top: 0;
+      margin-bottom: 1em;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    
+    d-article blockquote {
+      border-left: 2px solid rgba(0, 0, 0, 0.2);
+      padding-left: 2em;
+      font-style: italic;
+      color: rgba(0, 0, 0, 0.6);
+    }
+    
+    d-article a {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+      text-decoration: none;
+    }
+    
+    d-article a:hover {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+    }
+    
+    d-article .link {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    
+    d-article ul,
+    d-article ol {
+      padding-left: 24px;
+    }
+    
+    d-article li {
+      margin-bottom: 1em;
+      margin-left: 0;
+      padding-left: 0;
+    }
+    
+    d-article li:last-child {
+      margin-bottom: 0;
+    }
+    
+    d-article pre {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    
+    d-article hr {
+      grid-column: screen;
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      margin-top: 60px;
+      margin-bottom: 60px;
+    }
+    
+    d-article section {
+      margin-top: 60px;
+      margin-bottom: 60px;
+    }
+    
+    d-article span.equation-mimic {
+      font-family: georgia;
+      font-size: 115%;
+      font-style: italic;
+    }
+    
+    d-article > d-code,
+    d-article section > d-code  {
+      display: block;
+    }
+    
+    d-article > d-math[block],
+    d-article section > d-math[block]  {
+      display: block;
+    }
+    
+    @media (max-width: 768px) {
+      d-article > d-code,
+      d-article section > d-code,
+      d-article > d-math[block],
+      d-article section > d-math[block] {
+          overflow-x: scroll;
+          -ms-overflow-style: none;  // IE 10+
+          overflow: -moz-scrollbars-none;  // Firefox
+      }
+    
+      d-article > d-code::-webkit-scrollbar,
+      d-article section > d-code::-webkit-scrollbar,
+      d-article > d-math[block]::-webkit-scrollbar,
+      d-article section > d-math[block]::-webkit-scrollbar {
+        display: none;  // Safari and Chrome
+      }
+    }
+    
+    d-article .citation {
+      color: #668;
+      cursor: pointer;
+    }
+    
+    d-include {
+      width: auto;
+      display: block;
+    }
+    
+    d-figure {
+      contain: layout style;
+    }
+    
+    /* KaTeX */
+    
+    .katex, .katex-prerendered {
+      contain: style;
+      display: inline-block;
+    }
+    
+    /* Tables */
+    
+    d-article table {
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    }
+    
+    d-article table th {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    }
+    
+    d-article table td {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    d-article table tr:last-of-type td {
+      border-bottom: none;
+    }
+    
+    d-article table th,
+    d-article table td {
+      font-size: 15px;
+      padding: 2px 8px;
+    }
+    
+    d-article table tbody :first-child td {
+      padding-top: 2px;
+    }
+    /*
+     * Copyright 2018 The Distill Template Authors
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *      http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+    
+    span.katex-display {
+      text-align: left;
+      padding: 8px 0 8px 0;
+      margin: 0.5em 0 0.5em 1em;
+    }
+    
+    span.katex {
+      -webkit-font-smoothing: antialiased;
+      color: rgba(0, 0, 0, 0.8);
+      font-size: 1.18em;
+    }
+    /*
+     * Copyright 2018 The Distill Template Authors
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *      http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+    
+    @media print {
+    
+      @page {
+        size: 8in 11in;
+        @bottom-right {
+          content: counter(page) " of " counter(pages);
+        }
+      }
+    
+      html {
+        /* no general margins -- CSS Grid takes care of those */
+      }
+    
+      p, code {
+        page-break-inside: avoid;
+      }
+    
+      h2, h3 {
+        page-break-after: avoid;
+      }
+    
+      d-header {
+        visibility: hidden;
+      }
+    
+      d-footer {
+        display: none!important;
+      }
+    
+    }
+    </style><script src="template.v2.js"></script>
+        <meta property="og:title" content="SR3: Image Super-Resolution via Iterative Refinement">
+        <meta property="og:type" content="website">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <meta charset="utf8">
+    <style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+    .CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+    .CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+    .CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+    </style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+    .CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+    .CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+    .CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+    .CtxtMenu_MenuClose:hover:focus {  outline:none}
+    </style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+    .CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+    .CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+    .CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+    .CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+    .CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+    .CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+    .CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+    .CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+    .CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+    .CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+    .CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+    .CtxtMenu_MenuSlider {  left: .1em;}
+    .CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+    .CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+    .CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+    .CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+    .CtxtMenu_MenuDisabled {  color:GrayText}
+    .CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+    .CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+    .CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+    .CtxtMenu_ContextMenu:focus {  outline:none}
+    .CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+    .CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+    .CtxtMenu_SelectionItem {  padding-right: 1em;}
+    .CtxtMenu_Selection {  right: 40%; width:50%; }
+    .CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+    .CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+    .CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+    </style><style id="MJX-CHTML-styles">
+    mjx-container[jax="CHTML"] {
+      line-height: 0;
+    }
+    
+    mjx-container [space="1"] {
+      margin-left: .111em;
+    }
+    
+    mjx-container [space="2"] {
+      margin-left: .167em;
+    }
+    
+    mjx-container [space="3"] {
+      margin-left: .222em;
+    }
+    
+    mjx-container [space="4"] {
+      margin-left: .278em;
+    }
+    
+    mjx-container [space="5"] {
+      margin-left: .333em;
+    }
+    
+    mjx-container [rspace="1"] {
+      margin-right: .111em;
+    }
+    
+    mjx-container [rspace="2"] {
+      margin-right: .167em;
+    }
+    
+    mjx-container [rspace="3"] {
+      margin-right: .222em;
+    }
+    
+    mjx-container [rspace="4"] {
+      margin-right: .278em;
+    }
+    
+    mjx-container [rspace="5"] {
+      margin-right: .333em;
+    }
+    
+    mjx-container [size="s"] {
+      font-size: 70.7%;
+    }
+    
+    mjx-container [size="ss"] {
+      font-size: 50%;
+    }
+    
+    mjx-container [size="Tn"] {
+      font-size: 60%;
+    }
+    
+    mjx-container [size="sm"] {
+      font-size: 85%;
+    }
+    
+    mjx-container [size="lg"] {
+      font-size: 120%;
+    }
+    
+    mjx-container [size="Lg"] {
+      font-size: 144%;
+    }
+    
+    mjx-container [size="LG"] {
+      font-size: 173%;
+    }
+    
+    mjx-container [size="hg"] {
+      font-size: 207%;
+    }
+    
+    mjx-container [size="HG"] {
+      font-size: 249%;
+    }
+    
+    mjx-container [width="full"] {
+      width: 100%;
+    }
+    
+    mjx-box {
+      display: inline-block;
+    }
+    
+    mjx-block {
+      display: block;
+    }
+    
+    mjx-itable {
+      display: inline-table;
+    }
+    
+    mjx-row {
+      display: table-row;
+    }
+    
+    mjx-row > * {
+      display: table-cell;
+    }
+    
+    mjx-mtext {
+      display: inline-block;
+    }
+    
+    mjx-mstyle {
+      display: inline-block;
+    }
+    
+    mjx-merror {
+      display: inline-block;
+      color: red;
+      background-color: yellow;
+    }
+    
+    mjx-mphantom {
+      visibility: hidden;
+    }
+    
+    _::-webkit-full-page-media, _:future, :root mjx-container {
+      will-change: opacity;
+    }
+    
+    mjx-assistive-mml {
+      position: absolute !important;
+      top: 0px;
+      left: 0px;
+      clip: rect(1px, 1px, 1px, 1px);
+      padding: 1px 0px 0px 0px !important;
+      border: 0px !important;
+      display: block !important;
+      width: auto !important;
+      overflow: hidden !important;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    
+    mjx-assistive-mml[display="block"] {
+      width: 100% !important;
+    }
+    
+    mjx-c::before {
+      display: block;
+      width: 0;
+    }
+    
+    .MJX-TEX {
+      font-family: MJXZERO, MJXTEX;
+    }
+    
+    .TEX-B {
+      font-family: MJXZERO, MJXTEX-B;
+    }
+    
+    .TEX-I {
+      font-family: MJXZERO, MJXTEX-I;
+    }
+    
+    .TEX-MI {
+      font-family: MJXZERO, MJXTEX-MI;
+    }
+    
+    .TEX-BI {
+      font-family: MJXZERO, MJXTEX-BI;
+    }
+    
+    .TEX-S1 {
+      font-family: MJXZERO, MJXTEX-S1;
+    }
+    
+    .TEX-S2 {
+      font-family: MJXZERO, MJXTEX-S2;
+    }
+    
+    .TEX-S3 {
+      font-family: MJXZERO, MJXTEX-S3;
+    }
+    
+    .TEX-S4 {
+      font-family: MJXZERO, MJXTEX-S4;
+    }
+    
+    .TEX-A {
+      font-family: MJXZERO, MJXTEX-A;
+    }
+    
+    .TEX-C {
+      font-family: MJXZERO, MJXTEX-C;
+    }
+    
+    .TEX-CB {
+      font-family: MJXZERO, MJXTEX-CB;
+    }
+    
+    .TEX-FR {
+      font-family: MJXZERO, MJXTEX-FR;
+    }
+    
+    .TEX-FRB {
+      font-family: MJXZERO, MJXTEX-FRB;
+    }
+    
+    .TEX-SS {
+      font-family: MJXZERO, MJXTEX-SS;
+    }
+    
+    .TEX-SSB {
+      font-family: MJXZERO, MJXTEX-SSB;
+    }
+    
+    .TEX-SSI {
+      font-family: MJXZERO, MJXTEX-SSI;
+    }
+    
+    .TEX-SC {
+      font-family: MJXZERO, MJXTEX-SC;
+    }
+    
+    .TEX-T {
+      font-family: MJXZERO, MJXTEX-T;
+    }
+    
+    .TEX-V {
+      font-family: MJXZERO, MJXTEX-V;
+    }
+    
+    .TEX-VB {
+      font-family: MJXZERO, MJXTEX-VB;
+    }
+    
+    mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+      font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+    }
+    
+    @font-face /* 0 */ {
+      font-family: MJXZERO;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+    }
+    
+    @font-face /* 1 */ {
+      font-family: MJXTEX;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+    }
+    
+    @font-face /* 2 */ {
+      font-family: MJXTEX-B;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+    }
+    
+    @font-face /* 3 */ {
+      font-family: MJXTEX-I;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+    }
+    
+    @font-face /* 4 */ {
+      font-family: MJXTEX-MI;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+    }
+    
+    @font-face /* 5 */ {
+      font-family: MJXTEX-BI;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+    }
+    
+    @font-face /* 6 */ {
+      font-family: MJXTEX-S1;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+    }
+    
+    @font-face /* 7 */ {
+      font-family: MJXTEX-S2;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+    }
+    
+    @font-face /* 8 */ {
+      font-family: MJXTEX-S3;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+    }
+    
+    @font-face /* 9 */ {
+      font-family: MJXTEX-S4;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+    }
+    
+    @font-face /* 10 */ {
+      font-family: MJXTEX-A;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+    }
+    
+    @font-face /* 11 */ {
+      font-family: MJXTEX-C;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+    }
+    
+    @font-face /* 12 */ {
+      font-family: MJXTEX-CB;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+    }
+    
+    @font-face /* 13 */ {
+      font-family: MJXTEX-FR;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+    }
+    
+    @font-face /* 14 */ {
+      font-family: MJXTEX-FRB;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+    }
+    
+    @font-face /* 15 */ {
+      font-family: MJXTEX-SS;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+    }
+    
+    @font-face /* 16 */ {
+      font-family: MJXTEX-SSB;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+    }
+    
+    @font-face /* 17 */ {
+      font-family: MJXTEX-SSI;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+    }
+    
+    @font-face /* 18 */ {
+      font-family: MJXTEX-SC;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+    }
+    
+    @font-face /* 19 */ {
+      font-family: MJXTEX-T;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+    }
+    
+    @font-face /* 20 */ {
+      font-family: MJXTEX-V;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+    }
+    
+    @font-face /* 21 */ {
+      font-family: MJXTEX-VB;
+      src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+    }
+    </style>
+    </head>
+    
+    <body>
+      <div class="n-title">
+       <h1>
+        Style Transfer Using VampNet
+       </h1>
+       <p style="text-align: center"> Converting human meoldies and humming into music using VampNet. </p>
+        </div>
+      <div class="n-byline">
+       <div class="byline">
+        <ul class="authors">
+         <li>
+          <a style="text-decoration:none; color: inherit;">Dev Shah</a>
+         </li>
+         <li>
+          <a style="text-decoration:none; color: inherit;">Uzair Qadir</a>
+         </li>
+        </ul>
+        <ul class="authors">
+        <li>
+            <a style="text-decoration:none; color: inherit;">devshah2026@u.northwestern.edu</a>
+        </li>
+        <li>
+            <a style="text-decoration:none; color: inherit;">uzairqadir2020@u.northwestern.edu</a>
+        </li>
+        </ul>
+        <ul class="authors affiliations">
+         <li>
+          <a style="text-decoration:none; color: inherit;">Northwestern University</a>
+         </li>
+         <li>
+            <a style="text-decoration:none; color: inherit;">CS 496: Generative Deep Models</a>
+           </li>
+           <li>
+            <a style="text-decoration:none; color: inherit;">Professor Bryan Pardo</a>
+           </li>
+        </ul>
+       </div>
+      </div>
+      <d-article>
+
+        
+        <!-- <video controls="" autoplay="" loop="" width="1080" height="560" style="object-fit: contain;grid-column: page;">
+         <source src="images/super_res_movie.m4v" type="video/mp4">
+         </video> -->
+        <h3>Summary</h3>
+        <p>
+            We present a modified version of VampNet that converts human hummings into musical audio. The key modifications made to VampNet lie in the masking and sampling processes. This method exhibits strong performance in short audio inputs and has natural variation in instruments, genre, and pace of the output whilst consistently matching the input melodies. 
+        </p>
+        <figure style="text-align: center;">
+          <audio controls="" style="width: 40%; display: inline-block;">
+            <source src="samples/good/input.mp3" type="audio/mpeg">
+          </audio>
+          <audio controls="" style="width: 40%; display: inline-block;">
+            <source src="samples/good/output.wav" type="audio/mpeg">
+          </audio>
+          <figcaption><b>Sample Result</b>: (Left) Human humming, (Right) Output of Model.</figcaption>
+        </figure>
+        <h3>Motivation</h3>
+        <p>
+          Our project was exploring Style Transfer using vampnet. Mostly, we just wanted to play with vampnet. But also, we were motivated by thinking of music generation as serving two big groups: musicians and consumers. For musicians, we want generative tools to offer them new ways to play with their own style. We want to enable them to express themselves in modalities that are different or more direct than what they had before. The tool shouldn't be a barrier or constraint. We also think an ideal tool is accessible enough to empower users who want to enhance their consumption or move into something more creative entirely.Turntables, mixtapes, and Garageband come to mind. Tools like Shazam in combination with social media changed how we consumed and discussed music.
+          </p>
+          <p>
+          The mode of expression we felt was most essential and therefore the most natural interface for a generative tool like this was pure melody, in the form of humming or whistling. While the precise sonic qualities that differentiate pieces of music from each other are often hard to pin down, melody is probably what we consider most definitive. If you have to describe a song to someone, simply humming it is easier than trying to come up with verbal explanations or clapping the rhythm of different instruments in the song. From a musician and consumer perspective, this is a really natural way to express the core of a musical idea. We felt we could leverage vampnet's generative capabilities to expand on these ideas in a way that might be interesting to the users and beyond anything they could achieve with a voice transformer over some simple humming.  
+        </p>
+        <h3>How it works</h3>
+        <figure style="grid-column: text">
+          <img src="images/vampnet2.png" style="width: 100%; margin-top: 1rem;display: block; margin-left: auto; margin-right: auto;">
+            <figcaption style="display:flex; justify-content: center">  <b>Model Architecture</b>: (Red) Proposed Changes</figcaption>
+        </figure>
+        <h4>Masking</h4>
+        <figure style="grid-column: text">
+          <img src="images/mask.png" style="width: 60%; margin-top: 1rem;display: block; margin-left: auto; margin-right: auto;">
+            <figcaption style="display:flex; justify-content: center">  <b>Example Mask</b>: (Yellow) Unmasked Region, (Black) Masked Region, (Tokens 0-3) Coarse Tokens, (Tokens 4-13) Fine Tokens.</figcaption>
+        </figure>
+        <h4>Sampling</h4>
+        <h3>How it was built</h3>
+        <h3>Results</h3>
+
+        <h3>Super-Resolution Results</h3>
+        <p>
+          We demonstrate the performance of SR3 on the tasks of face and natural image super-resolution. We perform face super-resolution at 16×16 → 128×128 and 64×64 → 512×512. We also train face super-resolution model for 64×64 → 256×256 and 256×256 → 1024×1024 effectively allowing us to do 16× super-resolution through cascading. We also explore 64×64 → 256×256 super-resolution on natural images.
+        </p>
+        <figure style="grid-column: text">
+            <img src="images/super_res_examples.png" style="width: 100%; margin-top: 1rem;display: block; margin-left: auto; margin-right: auto;">
+              <figcaption>  <b>Super Resolution results</b>: (Above) 64×64 → 512×512 face super-resolution, (Below) 64×64 -&gt; 256×256 natural image super-resolution.  </figcaption>
+        </figure>
+    
+    
+        <figure style="grid-column: text">
+            <img src="images/human_eval.png" style="width: 100%; margin-top: 1rem;">
+              <figcaption> We conduct 2-Alternatative Forced Choice Experiment human evaluation experiment. Subjects are asked to choose between reference high resolution image, and the model output. We measure the performance of the model through confusion rates (% of time, raters choose model output over reference images.) (Above) We achieve close to 50% confusion rate on the task of 16×16 -&gt; 128×128 faces outperforming state of the art face super-resolution methods. (Below) We also achieve 40% confusion rate on the much difficult task of 64x64 -&gt; 256x256 natural images outperforming regression baseline by a large margin. </figcaption>
+        </figure>
+    
+        <p>
+          </p><h3>Unconditional Generation Results</h3>
+          <p>
+            We generate unconditional 1024×1024 unconditional face images using a cascade of an unconditional diffusion model at 64×64 resolution followed by two 4× super-resolution models. We also generate 256×256 class conditional natural images by using a cascade of a class conditional diffusion model at 64×64 resolution followed by a 4x super-resolution model. Cascaded generation allows training different models in parallel and inference is also efficient as lower resolution models can use more iterations, while higher resolution models use fewer iterations.
+          </p>
+    
+          <figure style="grid-column: text">
+              <img src="images/cascade_fig.svg" style="width: 100%; margin-top: 1rem;display: block; margin-left: auto; margin-right: auto;">
+              <figcaption style="display:flex; justify-content: center"> Cascaded generation of unconditional 1024×1024 faces.  </figcaption>
+          </figure>
+    
+          <figure style="grid-column: text">
+              <img src="images/unconditional_faces.png" style="width: 100%; margin-top: 1rem;display: block; margin-left: auto; margin-right: auto;">
+              <figcaption style="display:flex; justify-content: center"> Selected example generations of unconditional 1024×1024 faces.  </figcaption>
+          </figure>
+    
+          <figure style="grid-column: text">
+              <img src="images/class_cond_images.png" style="width: 100%; margin-top: 1rem;display: block; margin-left: auto; margin-right: auto;">
+              <figcaption style="display:flex; justify-content: center"> Selected example generations of class conditional 256×256 natural images. Each row contains examples from a particular class.  </figcaption>
+          </figure>
+    <span style="margin-bottom: 10%"></span>
+    </d-article>
+    
+    
+    </body><div id="simplifyJobsContainer"><span></span></div></html>
