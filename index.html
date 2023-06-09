@@ -1482,27 +1482,40 @@
         </figure>
         <h3>Motivation</h3>
         <p>
-          Our project was exploring Style Transfer using vampnet. Mostly, we just wanted to play with vampnet. But also, we were motivated by thinking of music generation as serving two big groups: musicians and consumers. For musicians, we want generative tools to offer them new ways to play with their own style. We want to enable them to express themselves in modalities that are different or more direct than what they had before. The tool shouldn't be a barrier or constraint. We also think an ideal tool is accessible enough to empower users who want to enhance their consumption or move into something more creative entirely.Turntables, mixtapes, and Garageband come to mind. Tools like Shazam in combination with social media changed how we consumed and discussed music.
-          </p>
-          <p>
-          The mode of expression we felt was most essential and therefore the most natural interface for a generative tool like this was pure melody, in the form of humming or whistling. While the precise sonic qualities that differentiate pieces of music from each other are often hard to pin down, melody is probably what we consider most definitive. If you have to describe a song to someone, simply humming it is easier than trying to come up with verbal explanations or clapping the rhythm of different instruments in the song. From a musician and consumer perspective, this is a really natural way to express the core of a musical idea. We felt we could leverage vampnet's generative capabilities to expand on these ideas in a way that might be interesting to the users and beyond anything they could achieve with a voice transformer over some simple humming.  
+          The team was extremely interested in exploring the capabilities of VampNet and style transfer seemed like a great way to do so. Additionally, we were motivated by thinking of the users of music generation: musicians and consumers. For musicians, we want generative tools to offer them new ways to play with their own style. We want to enable them to express themselves in modalities that are different or more direct than what they had before. The tool shouldn't be a barrier or constraint. We also think an ideal tool is accessible enough to empower users who want to enhance their consumption or move into something more creative entirely. Turntables, mixtapes, and Garageband come to mind. Tools like Shazam in combination with social media changed how we consumed and discussed music. Therefore, the mode of expression we felt was most essential and therefore the most natural interface for a generative tool like this was pure melody, in the form of humming or whistling. While the precise sonic qualities that differentiate pieces of music from each other are often hard to pin down, melody is probably what we consider most definitive. If you have to describe a song to someone, simply humming it is easier than trying to come up with verbal explanations or clapping the rhythm of different instruments in the song. From a musician and consumer perspective, this is a really natural way to express the core of a musical idea. We felt we could leverage vampnet's generative capabilities to expand on these ideas in a way that might be interesting to the users.
         </p>
         <h3>How it works</h3>
+        <p>
+          The general pipeline is shown in the figure below. First, input audio (a human humming or whistling for instance) is tokenized into 14 tokens for each timestep using an RVQ-VAE. This process is extremely similar to works such as soundstream. Out of these 14 tokens, the first 4 are “coarse” tokens and the remaining 10 are “fine” tokens. We then use a masking function to hide a portion of these tokens across the timesteps. We then use a transformer to fill in the coarse tokens. Next, we use the coarse tokens as conditioning for the next transformer to fill in the fine tokens. Both these transformers use parallel iterative decoding to speed up the sampling process. The base VampNet uses top-k sampling to choose tokens, but we modify this to also include a metric for the similarity between the original input tokens and the predicted tokens. These 2 transformers together form the VampNet model. The output is a complete embedding that can now be detokenized using the decoder of the RVQ-VAE resulting in musical audio that resembles the input’s melody. 
+        </p>
         <figure style="grid-column: text">
           <img src="images/vampnet2.png" style="width: 100%; margin-top: 1rem;display: block; margin-left: auto; margin-right: auto;">
             <figcaption style="display:flex; justify-content: center">  <b>Model Architecture</b>: (Red) Proposed Changes</figcaption>
         </figure>
         <h4>Masking</h4>
         <p>
-          In order to mask the input audio so as to conserve the orignal audio's melody whilst giving vampnet creative freedom, we tried different masking techniques. The best results were derived when the masking model worked on a linear schedule. This masked 90% of the lowest layer of the coarse tokens randomly to 10% of the topmost layer of the fine tokens. 
+          In order to mask the input audio so as to conserve the original audio's melody whilst giving vampnet creative freedom, we tried different masking techniques. The best results were derived when the masking model worked on a linear schedule. This masked 90% of the lowest layer of the tokens randomly, 83.5% of the next layer and so on until masking 10% of the topmost layer of the fine tokens. We also experimented with other schedules such as masking no tokens, a fixed amount of tokens, having different schedules for the fine and coarse tokens, and varying the percentage masked. The chosen masking schedule provided the best results qualitatively. 
         </p>
         <figure style="grid-column: text">
           <img src="images/mask.png" style="width: 60%; margin-top: 1rem;display: block; margin-left: auto; margin-right: auto;">
             <figcaption style="display:flex; justify-content: center">  <b>Example Mask</b>: (Yellow) Unmasked Region, (Black) Masked Region, (Tokens 0-3) Coarse Tokens, (Tokens 4-13) Fine Tokens.</figcaption>
         </figure>
         <h4>Sampling</h4>
+        <p>
+          For the change in the sampling process, we introduce a modification to the transformer’s output probabilities before conducting top-k sampling. Specifically, we multiply the predicted probability of the token value that matches the input’s token value at that same timestep (x axis in embedding representation) and token (y axis in embedding representation) by a factor (1.35 was determined to work the best). The figure below visualizes this process. 
+        </p>
+        <figure style="grid-column: text">
+          <img src="images/samplingProcess.png" style="width: 100%; margin-top: 1rem;display: block; margin-left: auto; margin-right: auto;">
+            <figcaption style="display:flex; justify-content: center">  <b>Example Sampling Process</b>: Showing a representation of the relevant parts of one iteration of the decoding procedure.</figcaption>
+        </figure>
         <h3>How it was built</h3>
+        <p>
+          The code was written by modifying the VampNet source code. The transformer's sampling methods were modified and a new wrapper function was created to allow for masking. The results were qualitatively evaluated by the team, but in the future, more concrete measures such as Fréchet Audio Distance experiments or large scale qualitative evaluations could be used. The dataset used for the results was primarily recorded by the team themselves. 
+        </p>
         <h3>Results</h3>
+        <p>
+          The model produced various interesting results as the key hyperparameters were changed such as number of iterations, temperature, and the sampling modification factor. The below results keep these parameters constant. Overall, it can be seen that the minimal masking performs far better than the significant masking. Moreover, the sampling method seems to perform slightly better with human melodies and whislting in terms of creating acurate melodies. 
+        </p>
         <figure style="text-align: center;">
           <table style="width:100%">
             <tr>
@@ -1571,7 +1584,7 @@
               </td>
             </tr>
             </table>
-          <figcaption><b>Sample Result</b>: (Left) Human humming, (Right) Output of Model.</figcaption>
+          <figcaption><b>Sample Results</b>: (Left) Human whistling, (Right) Output of Model.</figcaption>
         </figure>
 
         <figure style="text-align: center;">
@@ -1627,7 +1640,7 @@
               </td>
             </tr>
             </table>
-          <figcaption><b>Sample Result</b>: (Left) Human humming, (Right) Output of Model.</figcaption>
+          <figcaption><b>Sample Results</b>: (Left) Human melody, (Right) Output of Model.</figcaption>
         </figure>
 
         <figure style="text-align: center;">
@@ -1683,7 +1696,7 @@
               </td>
             </tr>
             </table>
-          <figcaption><b>Sample Result</b>: (Left) Human humming, (Right) Output of Model.</figcaption>
+          <figcaption><b>Sample Results</b>: (Left) Longer human inputs, (Right) Output of Model.</figcaption>
         </figure>
         
     <span style="margin-bottom: 10%"></span>
