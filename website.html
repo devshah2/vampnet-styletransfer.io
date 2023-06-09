@@ -1493,6 +1493,9 @@
             <figcaption style="display:flex; justify-content: center">  <b>Model Architecture</b>: (Red) Proposed Changes</figcaption>
         </figure>
         <h4>Masking</h4>
+        <p>
+          In order to mask the input audio so as to conserve the orignal audio's melody whilst giving vampnet creative freedom, we tried different masking techniques. The best results were derived when the masking model worked on a linear schedule. This masked 90% of the lowest layer of the coarse tokens randomly to 10% of the topmost layer of the fine tokens. 
+        </p>
         <figure style="grid-column: text">
           <img src="images/mask.png" style="width: 60%; margin-top: 1rem;display: block; margin-left: auto; margin-right: auto;">
             <figcaption style="display:flex; justify-content: center">  <b>Example Mask</b>: (Yellow) Unmasked Region, (Black) Masked Region, (Tokens 0-3) Coarse Tokens, (Tokens 4-13) Fine Tokens.</figcaption>
@@ -1500,42 +1503,7 @@
         <h4>Sampling</h4>
         <h3>How it was built</h3>
         <h3>Results</h3>
-
-        <h3>Super-Resolution Results</h3>
-        <p>
-          We demonstrate the performance of SR3 on the tasks of face and natural image super-resolution. We perform face super-resolution at 16×16 → 128×128 and 64×64 → 512×512. We also train face super-resolution model for 64×64 → 256×256 and 256×256 → 1024×1024 effectively allowing us to do 16× super-resolution through cascading. We also explore 64×64 → 256×256 super-resolution on natural images.
-        </p>
-        <figure style="grid-column: text">
-            <img src="images/super_res_examples.png" style="width: 100%; margin-top: 1rem;display: block; margin-left: auto; margin-right: auto;">
-              <figcaption>  <b>Super Resolution results</b>: (Above) 64×64 → 512×512 face super-resolution, (Below) 64×64 -&gt; 256×256 natural image super-resolution.  </figcaption>
-        </figure>
-    
-    
-        <figure style="grid-column: text">
-            <img src="images/human_eval.png" style="width: 100%; margin-top: 1rem;">
-              <figcaption> We conduct 2-Alternatative Forced Choice Experiment human evaluation experiment. Subjects are asked to choose between reference high resolution image, and the model output. We measure the performance of the model through confusion rates (% of time, raters choose model output over reference images.) (Above) We achieve close to 50% confusion rate on the task of 16×16 -&gt; 128×128 faces outperforming state of the art face super-resolution methods. (Below) We also achieve 40% confusion rate on the much difficult task of 64x64 -&gt; 256x256 natural images outperforming regression baseline by a large margin. </figcaption>
-        </figure>
-    
-        <p>
-          </p><h3>Unconditional Generation Results</h3>
-          <p>
-            We generate unconditional 1024×1024 unconditional face images using a cascade of an unconditional diffusion model at 64×64 resolution followed by two 4× super-resolution models. We also generate 256×256 class conditional natural images by using a cascade of a class conditional diffusion model at 64×64 resolution followed by a 4x super-resolution model. Cascaded generation allows training different models in parallel and inference is also efficient as lower resolution models can use more iterations, while higher resolution models use fewer iterations.
-          </p>
-    
-          <figure style="grid-column: text">
-              <img src="images/cascade_fig.svg" style="width: 100%; margin-top: 1rem;display: block; margin-left: auto; margin-right: auto;">
-              <figcaption style="display:flex; justify-content: center"> Cascaded generation of unconditional 1024×1024 faces.  </figcaption>
-          </figure>
-    
-          <figure style="grid-column: text">
-              <img src="images/unconditional_faces.png" style="width: 100%; margin-top: 1rem;display: block; margin-left: auto; margin-right: auto;">
-              <figcaption style="display:flex; justify-content: center"> Selected example generations of unconditional 1024×1024 faces.  </figcaption>
-          </figure>
-    
-          <figure style="grid-column: text">
-              <img src="images/class_cond_images.png" style="width: 100%; margin-top: 1rem;display: block; margin-left: auto; margin-right: auto;">
-              <figcaption style="display:flex; justify-content: center"> Selected example generations of class conditional 256×256 natural images. Each row contains examples from a particular class.  </figcaption>
-          </figure>
+        
     <span style="margin-bottom: 10%"></span>
     </d-article>
     
